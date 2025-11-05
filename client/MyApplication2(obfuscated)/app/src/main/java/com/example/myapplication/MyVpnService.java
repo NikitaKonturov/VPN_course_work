@@ -22,7 +22,7 @@ public class MyVpnService extends VpnService {
     private static final int NOTIFICATION_ID = 1;
     private static final String CHANNEL_ID = "vpn_service_channel";
 
-    // Создаем интерфейс для связи с Activity
+
     public interface VpnServiceCallback {
         void onServiceConnected(MyVpnService service);
         void onServiceDisconnected();
@@ -61,10 +61,35 @@ public class MyVpnService extends VpnService {
         super.onCreate();
         Log.d(TAG, "VPN Service created");
         createNotificationChannel();
-        // Создаем OpenVPN клиент
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "VPN Service started");
+
+        Notification notification = createNotification("VPN Service is running");
+        startForeground(NOTIFICATION_ID, notification);
+
+        if (intent != null) {
+            String action = intent.getAction();
+            if ("START_VPN".equals(action)) {
+                String config = intent.getStringExtra("config");
+                startVPN(config);
+            } else if ("STOP_VPN".equals(action)) {
+                stopVPN();
+            }
+        }
+
+        return START_STICKY;
+    }
+
+    private void startVPN(String config) {
         openVpnClient = new MyOpenVpnClient(new MyOpenVpnClient.VPNCallback() {
             @Override
             public void onStatusChanged(String status) {
+                if(!status.equals("DISCONNECTED") & !status.equals("FAILED_TO_START")) {
+                    isRunning = true;
+                }
                 broadcastStatus(status);
             }
 
@@ -96,29 +121,6 @@ public class MyVpnService extends VpnService {
         });
 
         openVpnClient.setVpnService(this);
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "VPN Service started");
-
-        Notification notification = createNotification("VPN Service is running");
-        startForeground(NOTIFICATION_ID, notification);
-
-        if (intent != null) {
-            String action = intent.getAction();
-            if ("START_VPN".equals(action)) {
-                String config = intent.getStringExtra("config");
-                startVPN(config);
-            } else if ("STOP_VPN".equals(action)) {
-                stopVPN();
-            }
-        }
-
-        return START_STICKY;
-    }
-
-    private void startVPN(String config) {
         if (!isRunning) {
             new Thread(() -> {
                 try {
@@ -135,9 +137,11 @@ public class MyVpnService extends VpnService {
     }
 
     private void stopVPN() {
+        Log.d("StopVpn in MyVpnService", "isRunning status: " + isRunning);
         if (isRunning) {
             openVpnClient.stopVPN();
             isRunning = false;
+            openVpnClient = null;
         }
     }
 

@@ -77,55 +77,58 @@ public class MyOpenVpnClient extends ClientAPI_OpenVPNClient{
     }
 
     @Override
+    public boolean socket_protect(int socket, String remote, boolean ipv6) {
+        Log.d("MyOpenVpnClient", "Protecting socket: " + socket);
+        if (vpnService != null) {
+            boolean protectedResult = vpnService.protect(socket);
+            Log.d("MyOpenVpnClient", "Socket protection result: " + protectedResult);
+            return protectedResult;
+        }
+        Log.e("MyOpenVpnClient", "Cannot protect socket - VpnService is null");
+        return false;
+    }
+
+    @Override
     public int tun_builder_establish() {
-        Log.d("MyOpenVpnClient", "Establishing TUN interface...");
+        Log.d("MyOpenVpnClient", "=== MINIMAL TUN ESTABLISH ===");
 
         if (vpnService == null) {
-            Log.e("MyOpenVpnClient", "VpnService is null - cannot create TUN");
+            Log.e("MyOpenVpnClient", "VpnService is null");
             return 0;
         }
 
         try {
             VpnService.Builder builder = vpnService.new Builder();
 
-            builder.setSession(sessionName != null ? sessionName : "MyOpenVPN");
-            builder.setMtu(mtu);
+            builder.setSession("MyVPN");
+            builder.setMtu(1500);
 
-            for (String dns : dnsServers) {
-                Log.d("MyOpenVpnClient", "Adding DNS: " + dns);
-                builder.addDnsServer(dns);
-            }
-
-            for (Address addr : addresses) {
-                Log.d("MyOpenVpnClient", "Adding address: " + addr.address + "/" + addr.prefixLength);
+            if (!addresses.isEmpty()) {
+                Address addr = addresses.get(0);
+                Log.d("MyOpenVpnClient", "Using address: " + addr.address + "/" + addr.prefixLength);
                 builder.addAddress(addr.address, addr.prefixLength);
+            } else {
+                Log.d("MyOpenVpnClient", "Using fallback address: 10.8.0.2/24");
+                builder.addAddress("10.8.0.2", 24);
             }
 
-            for (Route route : routes) {
-                Log.d("MyOpenVpnClient", "Adding route: " + route.address + "/" + route.prefixLength);
-                builder.addRoute(route.address, route.prefixLength);
-            }
+            builder.addDnsServer("8.8.8.8");
 
-            if (routes.isEmpty()) {
-                builder.addRoute("0.0.0.0", 0);
-                builder.addRoute("::", 0);
-            }
+            Log.d("MyOpenVpnClient", "ADDING SINGLE DEFAULT ROUTE: 0.0.0.0/0");
+            builder.addRoute("0.0.0.0", 0);
 
             tunInterface = builder.establish();
 
             if (tunInterface != null) {
                 int fd = tunInterface.detachFd();
-                Log.d("MyOpenVpnClient", "TUN interface established successfully with FD: " + fd);
+                Log.d("MyOpenVpnClient", "TUN SUCCESS - FD: " + fd);
                 return fd;
             } else {
-                Log.e("MyOpenVpnClient", "Failed to establish TUN interface - builder.establish() returned null");
+                Log.e("MyOpenVpnClient", "TUN FAILED - builder.establish() returned null");
             }
 
         } catch (Exception e) {
-            Log.e("MyOpenVpnClient", "Error establishing TUN interface: " + e.getMessage(), e);
-            if (callback != null) {
-                callback.onError("TUN Error: " + e.getMessage());
-            }
+            Log.e("MyOpenVpnClient", "TUN ERROR: " + e.getMessage(), e);
         }
         return 0;
     }
@@ -153,7 +156,7 @@ public class MyOpenVpnClient extends ClientAPI_OpenVPNClient{
     @Override
     public boolean tun_builder_add_route(String address, int prefixLength, int metric, boolean ipv6) {
         Log.d("MyOpenVpnClient", "Adding route: " + address + "/" + prefixLength + ", metric: " + metric + ", ipv6: " + ipv6);
-        routes.add(new Route(address, prefixLength, ipv6));
+//        routes.add(new Route(address, prefixLength, ipv6));
         return true;
     }
 
@@ -299,7 +302,7 @@ public class MyOpenVpnClient extends ClientAPI_OpenVPNClient{
             if (connectionThread != null && connectionThread.isAlive()) {
                 connectionThread.join(5000); // timeout 5 секунд
             }
-
+            clientUsed = false;
         }catch (Exception e) {
             if (callback != null) {
                 callback.onError("Stop VPN Error: " + e.getMessage());
@@ -314,33 +317,3 @@ public class MyOpenVpnClient extends ClientAPI_OpenVPNClient{
         return !clientUsed && !isRunning;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

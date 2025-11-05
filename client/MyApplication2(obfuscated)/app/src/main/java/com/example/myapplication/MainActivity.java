@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button connectBtn;
     private boolean isVpnRunning = false;
 
-    // BroadcastReceiver для получения статусов от VPN сервиса
     private BroadcastReceiver vpnStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -50,12 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return insets;
         });
 
-        // Инициализация UI
         logger = new TextViewLoger(findViewById(R.id.textView));
         connectBtn = findViewById(R.id.button);
         connectBtn.setOnClickListener(this);
 
-        // Устанавливаем callback для сервиса
         MyVpnService.setCallback(new MyVpnService.VpnServiceCallback() {
             @Override
             public void onServiceConnected(MyVpnService service) {
@@ -163,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             logger.addLog("Starting VPN service...");
-            connectBtn.setEnabled(false);
+//            connectBtn.setEnabled(false);
 
         } catch (Exception e) {
             logger.addLog("Error starting VPN: " + e.getMessage());
@@ -190,10 +187,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "VPN Status: " + status);
 
         switch (status) {
+            case "RECONNECTING":
+                isVpnRunning = true;
+                break;
+            case "WAIT":
+                isVpnRunning = true;
+                break;
+            case "RESOLVE":
+                isVpnRunning = true;
+                break;
             case "CONNECTED":
                 isVpnRunning = true;
                 break;
             case "DISCONNECTED":
+                isVpnRunning = false;
+                break;
             case "FAILED_TO_START":
                 isVpnRunning = false;
                 break;
@@ -205,7 +213,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         updateButtonText();
 
         if (status.equals("CONNECTED") || status.equals("DISCONNECTED") ||
-                status.equals("ERROR") || status.equals("FAILED_TO_START")) {
+                status.equals("ERROR") || status.equals("FAILED_TO_START") || status.equals("RECONNECTING") ||
+                status.equals("WAIT") || status.equals("RESOLVE")) {
             connectBtn.setEnabled(true);
         }
     }

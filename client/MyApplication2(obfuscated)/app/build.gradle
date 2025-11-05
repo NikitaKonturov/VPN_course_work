@@ -6,6 +6,7 @@ android {
     namespace 'com.example.myapplication'
     compileSdk 34
 
+
     defaultConfig {
         applicationId "com.example.myapplication"
         minSdk 34 // Понизил для совместимости, можно оставить 33 если нужно
@@ -38,8 +39,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 
