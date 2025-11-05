@@ -1,0 +1,326 @@
+.class public Lcom/vpnjava/client/DnsOptions;
+.super Ljava/lang/Object;
+.source "DnsOptions.java"
+
+
+# instance fields
+.field protected transient swigCMemOwn:Z
+
+.field private transient swigCPtr:J
+
+
+# direct methods
+.method public constructor <init>()V
+    .locals 3
+
+    .line 52
+    invoke-static {}, Lcom/vpnjava/client/ovpncliJNI;->new_DnsOptions()J
+
+    move-result-wide v0
+
+    const/4 v2, 0x1
+
+    invoke-direct {p0, v0, v1, v2}, Lcom/vpnjava/client/DnsOptions;-><init>(JZ)V
+
+    .line 53
+    return-void
+.end method
+
+.method protected constructor <init>(JZ)V
+    .locals 0
+    .param p1, "cPtr"    # J
+    .param p3, "cMemoryOwn"    # Z
+
+    .line 15
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    .line 16
+    iput-boolean p3, p0, Lcom/vpnjava/client/DnsOptions;->swigCMemOwn:Z
+
+    .line 17
+    iput-wide p1, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    .line 18
+    return-void
+.end method
+
+.method protected static getCPtr(Lcom/vpnjava/client/DnsOptions;)J
+    .locals 2
+    .param p0, "obj"    # Lcom/vpnjava/client/DnsOptions;
+
+    .line 21
+    if-nez p0, :cond_0
+
+    const-wide/16 v0, 0x0
+
+    goto :goto_0
+
+    :cond_0
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    :goto_0
+    return-wide v0
+.end method
+
+.method protected static swigRelease(Lcom/vpnjava/client/DnsOptions;)J
+    .locals 4
+    .param p0, "obj"    # Lcom/vpnjava/client/DnsOptions;
+
+    .line 25
+    const-wide/16 v0, 0x0
+
+    .line 26
+    .local v0, "ptr":J
+    if-eqz p0, :cond_1
+
+    .line 27
+    iget-boolean v2, p0, Lcom/vpnjava/client/DnsOptions;->swigCMemOwn:Z
+
+    if-eqz v2, :cond_0
+
+    .line 29
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    .line 30
+    const/4 v2, 0x0
+
+    iput-boolean v2, p0, Lcom/vpnjava/client/DnsOptions;->swigCMemOwn:Z
+
+    .line 31
+    invoke-virtual {p0}, Lcom/vpnjava/client/DnsOptions;->delete()V
+
+    goto :goto_0
+
+    .line 28
+    :cond_0
+    new-instance v2, Ljava/lang/RuntimeException;
+
+    const-string v3, "Cannot release ownership as memory is not owned"
+
+    invoke-direct {v2, v3}, Ljava/lang/RuntimeException;-><init>(Ljava/lang/String;)V
+
+    throw v2
+
+    .line 33
+    :cond_1
+    :goto_0
+    return-wide v0
+.end method
+
+
+# virtual methods
+.method public declared-synchronized delete()V
+    .locals 4
+
+    monitor-enter p0
+
+    .line 42
+    :try_start_0
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    const-wide/16 v2, 0x0
+
+    cmp-long v0, v0, v2
+
+    if-eqz v0, :cond_1
+
+    .line 43
+    iget-boolean v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCMemOwn:Z
+
+    if-eqz v0, :cond_0
+
+    .line 44
+    const/4 v0, 0x0
+
+    iput-boolean v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCMemOwn:Z
+
+    .line 45
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    invoke-static {v0, v1}, Lcom/vpnjava/client/ovpncliJNI;->delete_DnsOptions(J)V
+
+    .line 47
+    .end local p0    # "this":Lcom/vpnjava/client/DnsOptions;
+    :cond_0
+    iput-wide v2, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    .line 49
+    :cond_1
+    monitor-exit p0
+
+    return-void
+
+    .line 41
+    :catchall_0
+    move-exception v0
+
+    :try_start_1
+    monitor-exit p0
+    :try_end_1
+    .catchall {:try_start_1 .. :try_end_1} :catchall_0
+
+    throw v0
+.end method
+
+.method protected finalize()V
+    .locals 0
+
+    .line 38
+    invoke-virtual {p0}, Lcom/vpnjava/client/DnsOptions;->delete()V
+
+    .line 39
+    return-void
+.end method
+
+.method public getFrom_dhcp_options()Z
+    .locals 2
+
+    .line 64
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    invoke-static {v0, v1, p0}, Lcom/vpnjava/client/ovpncliJNI;->DnsOptions_from_dhcp_options_get(JLcom/vpnjava/client/DnsOptions;)Z
+
+    move-result v0
+
+    return v0
+.end method
+
+.method public getSearch_domains()Lcom/vpnjava/client/DnsOptions_DomainsList;
+    .locals 4
+
+    .line 72
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    invoke-static {v0, v1, p0}, Lcom/vpnjava/client/ovpncliJNI;->DnsOptions_search_domains_get(JLcom/vpnjava/client/DnsOptions;)J
+
+    move-result-wide v0
+
+    .line 73
+    .local v0, "cPtr":J
+    const-wide/16 v2, 0x0
+
+    cmp-long v2, v0, v2
+
+    if-nez v2, :cond_0
+
+    const/4 v2, 0x0
+
+    goto :goto_0
+
+    :cond_0
+    new-instance v2, Lcom/vpnjava/client/DnsOptions_DomainsList;
+
+    const/4 v3, 0x0
+
+    invoke-direct {v2, v0, v1, v3}, Lcom/vpnjava/client/DnsOptions_DomainsList;-><init>(JZ)V
+
+    :goto_0
+    return-object v2
+.end method
+
+.method public getServers()Lcom/vpnjava/client/DnsOptions_ServersMap;
+    .locals 4
+
+    .line 81
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    invoke-static {v0, v1, p0}, Lcom/vpnjava/client/ovpncliJNI;->DnsOptions_servers_get(JLcom/vpnjava/client/DnsOptions;)J
+
+    move-result-wide v0
+
+    .line 82
+    .local v0, "cPtr":J
+    const-wide/16 v2, 0x0
+
+    cmp-long v2, v0, v2
+
+    if-nez v2, :cond_0
+
+    const/4 v2, 0x0
+
+    goto :goto_0
+
+    :cond_0
+    new-instance v2, Lcom/vpnjava/client/DnsOptions_ServersMap;
+
+    const/4 v3, 0x0
+
+    invoke-direct {v2, v0, v1, v3}, Lcom/vpnjava/client/DnsOptions_ServersMap;-><init>(JZ)V
+
+    :goto_0
+    return-object v2
+.end method
+
+.method public setFrom_dhcp_options(Z)V
+    .locals 2
+    .param p1, "value"    # Z
+
+    .line 60
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    invoke-static {v0, v1, p0, p1}, Lcom/vpnjava/client/ovpncliJNI;->DnsOptions_from_dhcp_options_set(JLcom/vpnjava/client/DnsOptions;Z)V
+
+    .line 61
+    return-void
+.end method
+
+.method public setSearch_domains(Lcom/vpnjava/client/DnsOptions_DomainsList;)V
+    .locals 6
+    .param p1, "value"    # Lcom/vpnjava/client/DnsOptions_DomainsList;
+
+    .line 68
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    invoke-static {p1}, Lcom/vpnjava/client/DnsOptions_DomainsList;->getCPtr(Lcom/vpnjava/client/DnsOptions_DomainsList;)J
+
+    move-result-wide v3
+
+    move-object v2, p0
+
+    move-object v5, p1
+
+    .end local p1    # "value":Lcom/vpnjava/client/DnsOptions_DomainsList;
+    .local v5, "value":Lcom/vpnjava/client/DnsOptions_DomainsList;
+    invoke-static/range {v0 .. v5}, Lcom/vpnjava/client/ovpncliJNI;->DnsOptions_search_domains_set(JLcom/vpnjava/client/DnsOptions;JLcom/vpnjava/client/DnsOptions_DomainsList;)V
+
+    .line 69
+    return-void
+.end method
+
+.method public setServers(Lcom/vpnjava/client/DnsOptions_ServersMap;)V
+    .locals 6
+    .param p1, "value"    # Lcom/vpnjava/client/DnsOptions_ServersMap;
+
+    .line 77
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    invoke-static {p1}, Lcom/vpnjava/client/DnsOptions_ServersMap;->getCPtr(Lcom/vpnjava/client/DnsOptions_ServersMap;)J
+
+    move-result-wide v3
+
+    move-object v2, p0
+
+    move-object v5, p1
+
+    .end local p1    # "value":Lcom/vpnjava/client/DnsOptions_ServersMap;
+    .local v5, "value":Lcom/vpnjava/client/DnsOptions_ServersMap;
+    invoke-static/range {v0 .. v5}, Lcom/vpnjava/client/ovpncliJNI;->DnsOptions_servers_set(JLcom/vpnjava/client/DnsOptions;JLcom/vpnjava/client/DnsOptions_ServersMap;)V
+
+    .line 78
+    return-void
+.end method
+
+.method public to_string()Ljava/lang/String;
+    .locals 2
+
+    .line 56
+    iget-wide v0, p0, Lcom/vpnjava/client/DnsOptions;->swigCPtr:J
+
+    invoke-static {v0, v1, p0}, Lcom/vpnjava/client/ovpncliJNI;->DnsOptions_to_string(JLcom/vpnjava/client/DnsOptions;)Ljava/lang/String;
+
+    move-result-object v0
+
+    return-object v0
+.end method

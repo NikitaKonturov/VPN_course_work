@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@id/main" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Button android:id="@id/button" android:layout_width="232.0dip" android:layout_height="84.0dip" android:layout_marginTop="204.0dip" android:text="Connect" android:layout_marginEnd="96.0dip" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" />
+    <TextView android:textColor="#fff2d209" android:id="@id/textView" android:background="#ff111726" android:scrollbars="vertical" android:layout_width="374.0dip" android:layout_height="430.0dip" android:layout_marginTop="16.0dip" android:maxLines="1000" android:maxLength="50000" android:isScrollContainer="true" android:textIsSelectable="false" android:layout_marginEnd="20.0dip" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toBottomOf="@id/button" />
+</androidx.constraintlayout.widget.ConstraintLayout>

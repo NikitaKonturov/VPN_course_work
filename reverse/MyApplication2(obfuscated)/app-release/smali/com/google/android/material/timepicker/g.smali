@@ -1,0 +1,46 @@
+.class public final synthetic Lcom/google/android/material/timepicker/g;
+.super Ljava/lang/Object;
+.source "r8-map-id-f9c349ba99fb8bde90179136b3d509dd49da902457eb1f0bae5161c2c9f1476a"
+
+# interfaces
+.implements Ljava/lang/Runnable;
+
+
+# instance fields
+.field public final synthetic f:Lcom/google/android/material/timepicker/h;
+
+
+# direct methods
+.method public synthetic constructor <init>(Lcom/google/android/material/timepicker/h;)V
+    .locals 0
+
+    .line 1
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    .line 2
+    .line 3
+    .line 4
+    iput-object p1, p0, Lcom/google/android/material/timepicker/g;->f:Lcom/google/android/material/timepicker/h;
+
+    .line 5
+    .line 6
+    return-void
+.end method
+
+
+# virtual methods
+.method public final run()V
+    .locals 0
+
+    .line 1
+    iget-object p0, p0, Lcom/google/android/material/timepicker/g;->f:Lcom/google/android/material/timepicker/h;
+
+    .line 2
+    .line 3
+    invoke-virtual {p0}, Lcom/google/android/material/timepicker/h;->m()V
+
+    .line 4
+    .line 5
+    .line 6
+    return-void
+.end method
